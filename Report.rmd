@@ -1,0 +1,266 @@
+```rmd
+---
+title: "Inferring Microbial Networks in Different Soil Conditions"
+author: "Dexter Chen"
+date: "2024-10-14"  # Use ISO 8601 date format
+output: 
+  html_document:
+    toc: true  # Add a table of contents
+    toc_float: true # Make the toc float
+    theme: united # Use a nicer theme (optional)
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, fig.align = "center")  # Globally center figures
+```
+
+## Introduction
+
+This report analyzes microbial networks from 16S rRNA gene sequencing data under two nitrogen conditions: plusN and minusN. The analysis involves preprocessing, network inference, simulation, evaluation, and visualization.
+
+## Preprocessing
+
+The raw dataset (`n_starvation.rds`) contains OTU abundances, taxonomic classifications, and sample metadata. Data is split based on the `growthCondition` variable (plusN and minusN).
+
+```{r preprocessing, message=FALSE}
+library(phyloseq)
+library(SPRING)
+library(SpiecEasi)
+library(JGL)
+library(EstimateGroupNetwork)
+library(igraph)
+library(qgraph)
+library(caret)
+library(pROC)
+library(MLmetrics)
+library(ggplot2)
+library(tidyr)
+library(ggraph)
+library(tidyverse)
+library(RColorBrewer)
+library(mixedCCA)
+
+rawdata <- readRDS("data/n_starvation.rds")
+otu_Ab <- t(otu_table(rawdata)) |> as.data.frame()
+sam_info <- as.data.frame(sample_data(rawdata))
+otu_tax <- as.data.frame(tax_table(rawdata))
+
+otu_Ab_Nplus <- otu_Ab[which(rownames(otu_Ab) %in% rownames(sam_info[sam_info$growthCondition == "plusN", ])), ]
+otu_Ab_Nminus <- otu_Ab[which(rownames(otu_Ab) %in% rownames(sam_info[sam_info$growthCondition == "minusN", ])), ]
+
+shared_otu <- intersect(colnames(otu_Ab_Nplus), colnames(otu_Ab_Nminus))
+
+# Keep only shared OTUs
+otu_Ab_Nplus <- otu_Ab_Nplus[, shared_otu]
+otu_Ab_Nminus <- otu_Ab_Nminus[, shared_otu]
+
+# Define estimation
+preprocess_and_estimate_network <- function(data_list, labels = NULL,  nlambda1 = 30, nlambda2 = 30)
+  {
+    # Helper function for common scaling normalization
+    norm_to_total <- function(x) x / sum(x)
+    common_scaling <- function(data) {
+      depths <- rowSums(data)
+      data_normalized <- t(apply(data, 1, norm_to_total))
+      common_depth <- min(depths)
+      data_common_scaled <- round(data_normalized * common_depth) 
+      return(data_common_scaled)
+    }
+    # Preprocessing steps for each data set in the list
+    processed_data_list <- lapply(data_list, function(data) {
+      scaled_data <- common_scaling(data)
+      mclr_data <- mclr(scaled_data) # Using SPRING's mclr
+      Kcor <- mixedCCA::estimateR(mclr_data, type = "trunc", method = "approx", tol = 1e-6, verbose = FALSE)$R
+      return(Kcor)
+    })
+
+    # Sample sizes for each dataset.
+    n_samples <- sapply(data_list, nrow)
+
+    # Estimate the network using the preprocessed data
+    Res <- EstimateGroupNetwork(
+      processed_data_list, 
+      inputType = "list.of.covariance.matrices",
+      n = n_samples,
+      labels = labels, # Pass labels directly 
+      nlambda1 = nlambda1, 
+      nlambda2 = nlambda2, 
+      truncate = 1e-10, 
+      criterion = 'bic'
+    )
+    return(Res)
+  }
+```
+
+## Network Inference
+This section infers separate microbial networks for the plusN and minusN conditions. We use the preprocess_and_estimate_network function (defined in a separate network_functions.R file – see Appendix) which performs common scaling normalization, modified centered log-ratio transformation (mclr), correlation estimation, and applies the Joint Graphical Lasso (JGL) algorithm to estimate sparse network structures. The preprocess_and_estimate_network function enhances code organization and reusability.
+```{r infer_network}
+data_list <- list(Nplus = otu_Ab_Nplus, Nminus = otu_Ab_Nminus)
+network_results <- preprocess_and_estimate_network(data_list, labels = shared_otu)
+network_Nplus <- network_results$Nplus
+network_Nminus <- network_results$Nminus
+
+knitr::kable(head(network_Nplus, 5), caption = "Head of Network Nplus")  # Nicer table output
+knitr::kable(head(network_Nminus, 5), caption = "Head of Network Nminus")
+```
+
+
+## Network Visualization
+This section visually explores the inferred networks. We examine the distribution of edge weights (representing the strength of microbial interactions) and generate network plots to illustrate the overall network topology and connections between OTUs in each nitrogen condition.
+### Edge Weight Distribution
+The following histogram displays the distribution of correlation values (edge weights) within the inferred networks for both the plusN and minusN conditions. This visualization helps to understand the range and frequency of interaction strengths within each microbial community.
+```{r edge_distribution, fig.cap="Distribution of Correlation Values"}
+cor_values_Nplus <- as.vector(network_Nplus)
+cor_values_Nminus <- as.vector(network_Nminus)
+cor_df <- data.frame(
+  correlation = c(cor_values_Nplus, cor_values_Nminus),
+  group = factor(rep(c("Nplus", "Nminus"), each = length(cor_values_Nplus)))
+)
+hist_plot <- ggplot(cor_df, aes(x = correlation, fill = group)) +
+  geom_histogram(position = "dodge", bins = 30, alpha = 0.7) +
+  scale_fill_manual(values = c("Nplus" = "blue", "Nminus" = "red")) +
+  theme_minimal() +
+  labs(title = "Distribution of Correlation Values",
+       x = "Correlation",
+       y = "Frequency",
+       fill = "Nitro Status")
+```
+
+
+### Network Plots
+
+```{r network_plots, fig.show='hold', out.width='50%', fig.cap="Network Plots"}
+family_groups <- as.factor(otu_tax[rownames(network_Nplus),"Family"])
+qgraph::qgraph(network_Nplus, 
+  layout = "circle",
+  edge.color = ifelse(network_Nplus > 0, "blue", "red"),
+  title = "Network Nplus",
+  groups = family_groups)
+qgraph::qgraph(network_Nminus, 
+  layout = "circle",
+  edge.color = ifelse(network_Nminus > 0, "blue", "red"),
+  title = "Network Nminus",
+  groups = family_groups)
+
+```
+
+## Network Evaluation (Simulation and Metrics)
+To assess the robustness and reliability of the inferred networks, we perform simulations based on the original data and estimated network structures. This involves generating synthetic datasets with similar properties to the real data and inferring networks from these simulated datasets. We then calculate several performance metrics (TPR, FPR, Precision, Recall, F1-score, AUC, MCC) to compare the simulated networks to the original inferred networks. This evaluation helps to determine how well the inference method captures true underlying relationships and how stable the inferred networks are.
+```{r evaluation}
+true_adj_Nplus <- (network_Nplus !=0)*1
+true_adj_Nminus <- (network_Nminus !=0)*1
+set.seed(10010)
+synthesize_scaled_data <- function(dat, net)
+  {
+    graph <- (net != 0)*1     # SpiecEasi::make_graph('cluster', dat$n_OTUs, dat$n_edge)
+    attr(graph, "class") <- "graph"
+    Prec <- SpiecEasi::graph2prec(graph)
+    Cor <- cov2cor(SpiecEasi::prec2cov(Prec))
+    X <- SpiecEasi::synth_comm_from_counts(dat, mar = 2, distr = 'zinegbin', Sigma = Cor, n = nrow(dat))
+    return(X)
+  }
+Sim_list <- list()
+for (i in 1:50)
+  {
+    Sim_list[[i]] <- list(
+      Nplus = synthesize_scaled_data(otu_Ab_Nplus, network_Nplus),
+      Nminus = synthesize_scaled_data(otu_Ab_Nminus, network_Nminus)
+    )
+  }
+Res_sim <- list()
+for (i in 1:50)
+  {
+    Res_sim[[i]] <- preprocess_and_estimate_network(Sim_list[[i]], labels = shared_otu)
+  }
+Sim_adj <- list()
+for (i in 1:50)
+  {
+    Sim_adj[[i]] <- list(
+      Nplus = (Res_sim[[i]]$Nplus !=0)*1,
+      Nminus = (Res_sim[[i]]$Nminus !=0)*1
+    )
+  }
+calculate_mcc <- function(tp, tn, fp, fn)
+  {
+    numerator <- (tp * tn) - (fp * fn)
+    denominator <- sqrt((tp + fp) * (tp + fn) * (tn + fp) * (tn + fn))
+  
+    # If the denominator is 0, return 0 to avoid NaN errors
+    if (denominator == 0) {
+      return(0)
+    } else {
+      return(numerator / denominator)
+    }
+  }
+calculate_metrics <- function(true_adj, sim_adj)
+  {
+    # Flatten the matrices into vectors (upper triangular part, excluding diagonal)
+    true_edges <- as.vector(true_adj[upper.tri(true_adj)])
+    sim_edges <- as.vector(sim_adj[upper.tri(sim_adj)])
+  
+    # Confusion matrix
+    cm <- confusionMatrix(as.factor(sim_edges), as.factor(true_edges), positive = "1")
+    tn <- as.numeric(cm$table[1,1]) #true negatives
+    fp <- as.numeric(cm$table[1,2]) #false positives
+    fn <- as.numeric(cm$table[2,1]) #false negatives
+    tp <- as.numeric(cm$table[2,2]) #true positives
+  
+    # Calculate TPR, FPR, Precision, Recall
+    tpr <- tp / (tp + fn)  # Sensitivity / Recall
+    fpr <- fp / (fp + tn)  # 1 - Specificity
+    precision <- tp / (tp + fp)
+    recall <- tpr
+  
+    # Calculate ROC and AUC
+    roc_obj <- roc(true_edges, sim_edges)
+    auc <- as.numeric(auc(roc_obj)) # plot here
+  
+    # F1 Score
+    f1 <- F1_Score(sim_edges, true_edges)
+  
+    # MCC (Matthews correlation coefficient)
+    mcc <- calculate_mcc(tp, tn, fp, fn)
+  
+    # Return metrics as a list
+    return(list(TPR = tpr, FPR = fpr, Precision = precision, Recall = recall,
+                F1 = f1, AUC = auc, MCC = mcc))
+  }
+confusion_results <- lapply(1:50, function(i)
+    {
+    Nplus_metrics <- calculate_metrics(true_adj_Nplus, Sim_adj[[i]]$Nplus)
+    Nminus_metrics <- calculate_metrics(true_adj_Nminus, Sim_adj[[i]]$Nminus)
+    # Return both results as a named list
+    return(list(Nplus = Nplus_metrics, Nminus = Nminus_metrics))
+    } )
+results_df <- do.call(rbind, lapply(confusion_results, as.data.frame))
+
+knitr::kable(head(results_df, 5), caption = "Head of Evaluation Results")
+```
+
+
+## Bar Plots of Evaluation Metrics
+The bar plots below summarize the performance metrics calculated from the simulated networks. Each bar represents the average metric value across all simulations for a given nitrogen condition (Nplus or Nminus). These visualizations provide a comprehensive overview of the network inference performance and stability.
+
+```{r Confusion Matrices Plot, message=FALSE, warning=FALSE}
+results_df_long <- results_df %>%
+  dplyr::select(starts_with("Nplus.") | starts_with("Nminus.")) %>%
+  tidyr::pivot_longer(cols = everything(), 
+               names_to = c("group", "metric"), 
+               names_sep = "\\.",
+               values_to = "value") %>%
+  dplyr::mutate(matrix_id = rep(1:50, each = 14))
+
+for (metric_name in unique(results_df_long$metric)) {
+    plot_data <- results_df_long %>%
+        dplyr::filter(metric == metric_name)
+    
+    p <- ggplot2::ggplot(plot_data, aes(x = matrix_id, y = value, fill = group)) +
+        geom_bar(stat = "identity", position = "dodge") +
+        labs(title = paste(metric_name, "for Simulated Networks"),
+            x = "Matrix ID",
+            y = metric_name) +
+        theme_bw()
+    print(p)
+  #ggsave(paste0(metric_name, "_plot.png"), p)
+}
+```

@@ -1,0 +1,75 @@
+Package: NetCoMi
+Type: Package
+Title: Network Construction and Comparison for Microbiome Data
+Version: 1.1.0
+Date: 2022-11-20
+Authors@R: c(
+    person("Stefanie", "Peschel", email = "stefpeschel@gmail.com", 
+    role = c("aut", "cre"), comment = c(ORCID = "0000-0002-7936-7627")),
+    person("Christian L.", "Müller", role = "ctb", comment = c(ORCID = "0000-0002-3821-7083")),
+    person("Anne-Laure", "Boulesteix", role = "ctb", comment = c(ORCID = "0000-0002-2729-0947")),
+    person("Erika", "von Mutius", role = "ctb", comment = c(ORCID = "0000-0002-8893-4515")),
+    person("Martin", "Depner", role = "ctb")
+  )
+Description: NetCoMi offers functions for constructing, analyzing, and comparing 
+    microbial association networks as well as dissimilarity-based networks for 
+    microbial compositional data. It also includes functionality for 
+    constructing differential association networks.
+License: GPL-3 + file LICENSE
+URL: https://netcomi.de, https://github.com/stefpeschel/NetCoMi
+BugReports: https://github.com/stefpeschel/NetCoMi/issues
+Depends: SpiecEasi (>= 1.0.6)
+Imports: 
+    Biobase,
+    corrplot,
+    doSNOW,
+    fdrtool,
+    filematrix,
+    foreach,
+    graphics,
+    grDevices,
+    gtools,
+    huge,
+    igraph,
+    MASS,
+    Matrix,
+    mixedCCA (>= 1.6.2),
+    orca,
+    phyloseq,
+    pulsar,
+    qgraph,
+    RColorBrewer,
+    Rdpack,
+    rlang,
+    SPRING,
+    stats,
+    utils,
+    vegan,
+    WGCNA
+Remotes: 
+    bioc::Biobase,
+    bioc::metagenomeSeq@1.47.0,
+    bioc::phyloseq, 
+    github::zdk123/SpiecEasi,
+    github::GraceYoon/SPRING,
+    github::vmikk/metagMisc,
+    github::tpq/propr
+Suggests:
+    BiocManager,
+    cccd,
+    ccrepe,
+    DESeq2,
+    discordant,
+    knitr,
+    LaplacesDemon,
+    limma,
+    metagenomeSeq,
+    metagMisc,
+    propr,
+    rmarkdown,
+    testthat,
+    zCompositions
+RdMacros: Rdpack
+Encoding: UTF-8
+RoxygenNote: 7.3.2
+VignetteBuilder: knitr
