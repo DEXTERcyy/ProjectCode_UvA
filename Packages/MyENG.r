@@ -233,7 +233,6 @@ myadmm.iters.unconnected = function(S, lambda1,lambda2,penalty="fused",rho=1,rho
 
 
 ### ADMM for FGL:
-### ADMM for FGL:
 myadmm.iters = function(S, lambda1,lambda2,penalty="fused",rho=1,rho.increment=1,weights,penalize.diagonal,maxiter = 1000,tol=1e-5,warm=NULL)
 {
   K = length(S)

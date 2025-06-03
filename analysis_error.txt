@@ -1,11 +1,26 @@
+Bioconductor version '3.18' is out-of-date; the current release version '3.21'
+  is available with R version '4.5'; see https://bioconductor.org/install
+
+Attaching package: ‘BiocManager’
+
+The following object is masked from ‘package:devtools’:
+
+    install
+
+
+Registered S3 method overwritten by 'future':
+  method               from      
+  all.equal.connection parallelly
+Registered S3 methods overwritten by 'lava':
+  method    from
+  plot.sim  huge
+  print.sim huge
+Registered S3 methods overwritten by 'pROC':
+  method    from
+  print.roc huge
+  plot.roc  huge
 Loading required package: ggplot2
 Loading required package: lattice
-Registered S3 methods overwritten by 'huge':
-  method    from
-  plot.roc  pROC
-  plot.sim  lava
-  print.roc pROC
-  print.sim lava
 Type 'citation("pROC")' for a citation.
 
 Attaching package: ‘pROC’
@@ -116,247 +131,7 @@ Registered S3 methods overwritten by 'proxy':
   method               from    
   print.registry_field registry
   print.registry_entry registry
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
 Saving 7 x 7 in image
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
 Saving 7 x 7 in image
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
 Saving 7 x 7 in image
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Setting levels: control = 0, case = 1
-Setting direction: controls < cases
-Saving 7 x 7 in image
+There were 50 or more warnings (use warnings() to see the first 50)

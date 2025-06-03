@@ -73,7 +73,7 @@ stabENG = function(Y,var.thresh, subsample.ratio = NULL, labels = NULL,
   est$variability = est.lambda1$variability
   est$opt.lambda1 = est.lambda1$opt.lambda1
   est$opt.fit.pcor = preprocess_and_estimate_network(Y,labels = labels, lambda1 = est.lambda1$opt.lambda1, lambda2 = est.lambda2$opt.lambda2)$pcor
-  cat('Network estimation done. \n')
+  #cat('Network estimation done. \n')
   return(est)
 }
 
@@ -137,14 +137,14 @@ stabENG_select_lambda1 = function(Y, weights="equal",labels, stars.thresh, stars
     if(verbose) cat('Tuning lambda1 parallelly... \n ')
     cl <- parallel::makeCluster(nCores)
     doParallel::registerDoParallel(cl)
-    parallel::clusterEvalQ(cl,Sys.info())
+    parallel::clusterEvalQ(cl,Sys.info()) # Consider adding .libPaths() or library calls here if packages are not found by workers
     res.list = foreach::foreach(i=1:rep.num,
       .export = c('stabENG_select_lambda1_parallel', 'preprocess_and_estimate_network', 
       'myENG','myadmm.iters','myadmm.iters.unconnected','flsa2','flsa.general','soft',
     'penalty.as.matrix','dsgl'),
-      .packages = c("stabJGL","igraph","qgraph")) %dopar% {
+      .packages = c("stabJGL","igraph","qgraph","SPRING","mixedCCA")) %dopar% { # Added SPRING and mixedCCA to packages
       stabENG_select_lambda1_parallel(Y,labels=labels, rep.num=rep.num,n.vals=n.vals,stars.subsample.ratios=stars.subsample.ratios,
-                                      lambda1s=lambda1s,lambda2=lambda2,penalize.diagonal = penalize.diagonal,
+                                      lambda1s=lambda1s,lambda2=lambda2,
                                       seed=seeds[i], array.list=est$merge, verbose=verbose)
     }
     parallel::stopCluster(cl)
@@ -172,7 +172,7 @@ stabENG_select_lambda1 = function(Y, weights="equal",labels, stars.thresh, stars
 }
 
 stabENG_select_lambda1_parallel = function(Y,labels, rep.num,n.vals,stars.subsample.ratios,
-                                           lambda1s,lambda2,penalize.diagonal,
+                                           lambda1s,lambda2,
                                            seed,array.list,verbose){
   set.seed(seed)
   Y.sample = list()

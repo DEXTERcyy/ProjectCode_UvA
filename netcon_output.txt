@@ -1,217 +1,201 @@
 R version 4.3.2 (2023-10-31) 
 R Home: /zfs/omics/software/opt/R-4.3.2/lib64/R 
-R lib: /zfs/omics/software/opt/R-4.3.2/lib64/R/library /zfs/omics/software/lib /home/14720078/R/x86_64-pc-linux-gnu-library/4.3 
+R lib: /home/14720078/R/x86_64-pc-linux-gnu-library/4.3 /zfs/omics/software/opt/R-4.3.2/lib64/R/library /zfs/omics/software/lib 
 Packages loaded successfully
+           used  (Mb) gc trigger  (Mb) max used  (Mb)
+Ncells  6164598 329.3   11965135 639.1  8211421 438.6
+Vcells 10611280  81.0   17912376 136.7 12316488  94.0
+           used  (Mb) gc trigger  (Mb) max used  (Mb)
+Ncells  6165585 329.3   11965135 639.1  8211421 438.6
+Vcells 10613450  81.0   17912376 136.7 14732507 112.5
+           used  (Mb) gc trigger  (Mb) max used  (Mb)
+Ncells  6167124 329.4   11965135 639.1  8211421 438.6
+Vcells 10392460  79.3   17912376 136.7 14732507 112.5
+           used  (Mb) gc trigger  (Mb) max used  (Mb)
+Ncells  6169524 329.5   11965135 639.1  8211421 438.6
+Vcells 10417618  79.5   17912376 136.7 14732507 112.5
 Calculating network on day  4 
 Parallelizing with  16  cores. 
-Network estimation done. 
+Network calculation on Day 4 completed.
 
-Skipping permutation test filtering on Day 4 
-Synthesize simulation count data on day  4 
+Performing Freedman-Lane permutation test for network on Day 4 
+
+Permutation test thresholds for Day 4:
+  Nplus: 0.0000
+  Nminus: 0.0000
+Filtered OTU number on Day 4 Nplus (pcor): 163 Nminus (pcor): 156 
+Raw OTU number on Day 4 Nplus (precision): 163 Nminus (precision): 156 
+OTU number after pcor-based subsetting on Day 4 Nplus (pcor): 71 Nminus (pcor): 67 
+Corresponding OTU number on Day 4 Nplus (precision): 71 Nminus (precision): 67 
+Shared OTU number for simulation basis (shared_otu_perm_filtered) on Day 4 : 64 
+Synthesize simulation data on day  4 
 Calculate simulation data network on day  4  start.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 4 : 6.666667 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 4 : 13.33333 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 4 : 20 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 4 : 26.66667 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 4 : 33.33333 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 4 : 40 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 4 : 46.66667 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 4 : 53.33333 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 4 : 60 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 4 : 66.66667 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 4 : 73.33333 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 4 : 80 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 4 : 86.66667 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 4 : 93.33333 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 4 : 100 % done.
-Calculate confusion matrices on day  4 
 Calculating network on day  8 
 Parallelizing with  16  cores. 
-Network estimation done. 
+Network calculation on Day 8 completed.
 
-Skipping permutation test filtering on Day 8 
-Synthesize simulation count data on day  8 
+Performing Freedman-Lane permutation test for network on Day 8 
+
+Permutation test thresholds for Day 8:
+  Nplus: 0.0000
+  Nminus: 0.0000
+Filtered OTU number on Day 8 Nplus (pcor): 158 Nminus (pcor): 241 
+Raw OTU number on Day 8 Nplus (precision): 158 Nminus (precision): 241 
+OTU number after pcor-based subsetting on Day 8 Nplus (pcor): 70 Nminus (pcor): 72 
+Corresponding OTU number on Day 8 Nplus (precision): 70 Nminus (precision): 72 
+Shared OTU number for simulation basis (shared_otu_perm_filtered) on Day 8 : 62 
+Synthesize simulation data on day  8 
 Calculate simulation data network on day  8  start.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 8 : 6.666667 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 8 : 13.33333 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 8 : 20 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 8 : 26.66667 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 8 : 33.33333 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 8 : 40 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 8 : 46.66667 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 8 : 53.33333 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 8 : 60 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 8 : 66.66667 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 8 : 73.33333 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 8 : 80 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 8 : 86.66667 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 8 : 93.33333 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 8 : 100 % done.
-Calculate confusion matrices on day  8 
 Calculating network on day  12 
 Parallelizing with  16  cores. 
-Network estimation done. 
+Network calculation on Day 12 completed.
 
-Skipping permutation test filtering on Day 12 
-Synthesize simulation count data on day  12 
+Performing Freedman-Lane permutation test for network on Day 12 
+
+Permutation test thresholds for Day 12:
+  Nplus: 0.0000
+  Nminus: 0.0000
+Filtered OTU number on Day 12 Nplus (pcor): 200 Nminus (pcor): 254 
+Raw OTU number on Day 12 Nplus (precision): 200 Nminus (precision): 254 
+OTU number after pcor-based subsetting on Day 12 Nplus (pcor): 68 Nminus (pcor): 72 
+Corresponding OTU number on Day 12 Nplus (precision): 68 Nminus (precision): 72 
+Shared OTU number for simulation basis (shared_otu_perm_filtered) on Day 12 : 61 
+Synthesize simulation data on day  12 
 Calculate simulation data network on day  12  start.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 12 : 6.666667 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 12 : 13.33333 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 12 : 20 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 12 : 26.66667 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 12 : 33.33333 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 12 : 40 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 12 : 46.66667 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 12 : 53.33333 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 12 : 60 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 12 : 66.66667 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 12 : 73.33333 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 12 : 80 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 12 : 86.66667 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 12 : 93.33333 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 12 : 100 % done.
-Calculate confusion matrices on day  12 
 Calculating network on day  16 
 Parallelizing with  16  cores. 
-Network estimation done. 
+Network calculation on Day 16 completed.
 
-Skipping permutation test filtering on Day 16 
-Synthesize simulation count data on day  16 
+Performing Freedman-Lane permutation test for network on Day 16 
+
+Permutation test thresholds for Day 16:
+  Nplus: 0.0000
+  Nminus: 0.0000
+Filtered OTU number on Day 16 Nplus (pcor): 146 Nminus (pcor): 173 
+Raw OTU number on Day 16 Nplus (precision): 146 Nminus (precision): 173 
+OTU number after pcor-based subsetting on Day 16 Nplus (pcor): 56 Nminus (pcor): 59 
+Corresponding OTU number on Day 16 Nplus (precision): 56 Nminus (precision): 59 
+Shared OTU number for simulation basis (shared_otu_perm_filtered) on Day 16 : 53 
+Synthesize simulation data on day  16 
 Calculate simulation data network on day  16  start.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 16 : 6.666667 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 16 : 13.33333 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 16 : 20 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 16 : 26.66667 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 16 : 33.33333 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 16 : 40 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 16 : 46.66667 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 16 : 53.33333 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 16 : 60 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 16 : 66.66667 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 16 : 73.33333 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 16 : 80 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 16 : 86.66667 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 16 : 93.33333 % done.
 Parallelizing with  16  cores. 
-Network estimation done. 
 Simulation Progress on Day 16 : 100 % done.
-Calculate confusion matrices on day  16 
-All done in:  1.087037 
+All done in:  1.506882 
