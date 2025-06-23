@@ -553,44 +553,44 @@ pcs_cv_threshold_stabENG_lasso <- function(
 }
 
 #—— 基于PCS论文的Permutation Screen——
-pcor_screen_pcs = function(data_list, labels,
-                           group_name,
-                           n_perm = 50,
-                           alpha = 0.1,
-                           lambda1, lambda2) {
-  # data_list: 原始 count 矩阵列表，data_list[[group_name]] 为目标组
-  # labels: 列名（OTU）
-  # lambda1/lambda2: stabENG 中选好的参数
-  null_pcors <- numeric(0)
-  for(p in 1:n_perm) {
-    # 1) 置换每列
-    perm_list <- lapply(data_list, function(df){
-      df2 <- as.matrix(df)
-      for(j in seq_len(ncol(df2))) df2[,j] <- sample(df2[,j])
-      as.data.frame(df2)
-    })
-    # 2) 用原始 stabENG+glasso 估计 pcor
-    res_p <- preprocess_and_estimate_network(perm_list,
-                 labels = labels,
-                 lambda1 = lambda1,
-                 lambda2 = lambda2)$pcor[[group_name]]
-    # 3) 收集 upper‐triangular 的绝对值
-    null_pcors <- c(null_pcors, abs(res_p[upper.tri(res_p)]))
-  }
-  # 4) 阈值为 1−α 分位数
-  quantile(null_pcors, probs = 1 - alpha, na.rm = TRUE)
-}
+# pcor_screen_pcs = function(data_list, labels,
+#                            group_name,
+#                            n_perm = 50,
+#                            alpha = 0.1,
+#                            lambda1, lambda2) {
+#   # data_list: 原始 count 矩阵列表，data_list[[group_name]] 为目标组
+#   # labels: 列名（OTU）
+#   # lambda1/lambda2: stabENG 中选好的参数
+#   null_pcors <- numeric(0)
+#   for(p in 1:n_perm) {
+#     # 1) 置换每列
+#     perm_list <- lapply(data_list, function(df){
+#       df2 <- as.matrix(df)
+#       for(j in seq_len(ncol(df2))) df2[,j] <- sample(df2[,j])
+#       as.data.frame(df2)
+#     })
+#     # 2) 用原始 stabENG+glasso 估计 pcor
+#     res_p <- preprocess_and_estimate_network(perm_list,
+#                  labels = labels,
+#                  lambda1 = lambda1,
+#                  lambda2 = lambda2)$pcor[[group_name]]
+#     # 3) 收集 upper‐triangular 的绝对值
+#     null_pcors <- c(null_pcors, abs(res_p[upper.tri(res_p)]))
+#   }
+#   # 4) 阈值为 1−α 分位数
+#   quantile(null_pcors, probs = 1 - alpha, na.rm = TRUE)
+# }
 
-# —— 在 pcs_cv_threshold_stabENG_lasso 开头或最终 fallback 里调用 ——  
-# 假设你已经跑完 stabENG，拿到了 opt.lambda1 和 opt.lambda2
-tau_pcs_paper <- pcor_screen_pcs(
-    data_list         = data_list_unscaled_full,
-    labels            = otu_labels,
-    group_name        = group_name_target,
-    n_perm            = 50,       # 置换次数
-    alpha             = 0.1,      # false‐positive rate
-    lambda1           = stabENG_params_list$opt.lambda1,
-    lambda2           = stabENG_params_list$opt.lambda2
-)
-cat("PCS paper 置换筛选得到 τ =", round(tau_pcs_paper,5), "\n")
-return(tau_pcs_paper)
+# # —— 在 pcs_cv_threshold_stabENG_lasso 开头或最终 fallback 里调用 ——  
+# # 假设你已经跑完 stabENG，拿到了 opt.lambda1 和 opt.lambda2
+# tau_pcs_paper <- pcor_screen_pcs(
+#     data_list         = data_list_unscaled_full,
+#     labels            = otu_labels,
+#     group_name        = group_name_target,
+#     n_perm            = 50,       # 置换次数
+#     alpha             = 0.1,      # false‐positive rate
+#     lambda1           = stabENG_params_list$opt.lambda1,
+#     lambda2           = stabENG_params_list$opt.lambda2
+# )
+# cat("PCS paper 置换筛选得到 τ =", round(tau_pcs_paper,5), "\n")
+# return(tau_pcs_paper)

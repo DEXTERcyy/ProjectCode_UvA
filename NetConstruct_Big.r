@@ -41,7 +41,7 @@ library(dplyr)
 source("//home//14720078//ProjectCode//Packages//stabENG.r")
 source("//home//14720078//ProjectCode//Packages//MyENG.r")
 source("//home//14720078//ProjectCode//Packages//MyPlot.r")
-source("//home//14720078//ProjectCode//Packages//PCS_copy.r") # Source the PCS functions
+source("//home//14720078//ProjectCode//Packages//PCS_perm.r") # Source the PCS functions
 cat("Packages loaded successfully\n")
 #load("//home//14720078//ProjectCode//DataImage//big1226_Days_network_results_Big_Days_Filtered.RData")
 start_time <- Sys.time() # Moved start_time here, after packages are loaded.
@@ -196,7 +196,7 @@ synthesize_scaled_data <- function(dat, net)
 # Define stabENG parameters
 stabENG_parameters <- list(
   var.thresh = 0.1,
-  rep.num = 25,
+  rep.num = 15,
   nlambda1 = 20,
   lambda1.min = 0.01,
   lambda1.max = 1,
@@ -208,7 +208,7 @@ stabENG_parameters <- list(
   nCores = if (Sys.getenv("SLURM_CPUS_PER_TASK") != "") as.numeric(Sys.getenv("SLURM_CPUS_PER_TASK"))
 )
 # %% calculate network
-timestamps <- timestamps[2]
+timestamps <- timestamps[4]
 for (i in timestamps){
   # Create the directory structure if it doesn't exist
   plot_dir <- file.path("Plots", "BigDataFilter")
@@ -242,7 +242,7 @@ for (i in timestamps){
     pcs_thresholds_values <- list() # Initialize list for thresholds for current timestamp
     # PCS for Nplus group
     if (!is.null(data_list_current_timestamp$Nplus) && nrow(data_list_current_timestamp$Nplus) > 0) {
-        pcs_thresholds_values$Nplus <- pcs_cv_threshold_stabENG_lasso(
+        pcs_thresholds_values$Nplus <- pcs_cv_threshold_stabENG_lasso_perm(
           data_list_unscaled_full = data_list_current_timestamp,
           initial_pcor_matrix_target = network_pcor_raw[[i]]$Nplus,
           group_name_target = "Nplus",
@@ -260,7 +260,7 @@ for (i in timestamps){
 
     # PCS for Nminus group
     if (!is.null(data_list_current_timestamp$Nminus) && nrow(data_list_current_timestamp$Nminus) > 0) {
-        pcs_thresholds_values$Nminus <- pcs_cv_threshold_stabENG_lasso(
+        pcs_thresholds_values$Nminus <- pcs_cv_threshold_stabENG_lasso_perm(
           data_list_unscaled_full = data_list_current_timestamp, # 传递包含Nplus和Nminus的完整列表
           initial_pcor_matrix_target = network_pcor_raw[[i]]$Nminus,
           group_name_target = "Nminus",
@@ -403,35 +403,35 @@ for (i in timestamps){
     PCS_threshold_Nminus <- 0
   }
   # %% Plot network on Phylum level
-  Phylum_groups <- as.factor(otu_tax[rownames(network_pcor[[i]]$Nplus),"Phylum"])
-  png(filename=paste0(plot_path,"_network_Nplus_Phylum_Stab_Filtered_vsized.png"))
-  qgraph::qgraph(network_pcor[[i]]$Nplus, 
-    layout = "circle",
-    edge.color = ifelse(network_pcor[[i]]$Nplus > 0, "blue", "red"),
-    title = "Stab Network Nplus by Phylum",
-    vsize = 2.5,
-    groups = Phylum_groups)
-  dev.off()
+  # Phylum_groups <- as.factor(otu_tax[rownames(network_pcor[[i]]$Nplus),"Phylum"])
+  # png(filename=paste0(plot_path,"_network_Nplus_Phylum_Stab_Filtered_vsized.png"))
+  # qgraph::qgraph(network_pcor[[i]]$Nplus, 
+  #   layout = "circle",
+  #   edge.color = ifelse(network_pcor[[i]]$Nplus > 0, "blue", "red"),
+  #   title = "Stab Network Nplus by Phylum",
+  #   vsize = 2.5,
+  #   groups = Phylum_groups)
+  # dev.off()
   
-  png(filename=paste0(plot_path,"_network_Nminus_Phylum_Stab_Filtered_vsized.png"))
-  qgraph::qgraph(network_pcor[[i]]$Nminus, 
-    layout = "circle",
-    edge.color = ifelse(network_pcor[[i]]$Nminus > 0, "blue", "red"),
-    title = "Stab Network Nminus by Phylum",
-    vsize = 2.5,
-    groups = Phylum_groups)
-  dev.off()
-  # %%Visualize Edge weights
-  cor_values_Nplus <- as.vector(network_pcor[[i]]$Nplus)
-  cor_values_Nminus <- as.vector(network_pcor[[i]]$Nminus)
-  cor_values_Nplus_nonzero <- cor_values_Nplus[cor_values_Nplus != 0]
-  cor_values_Nminus_nonzero <- cor_values_Nminus[cor_values_Nminus != 0]
+  # png(filename=paste0(plot_path,"_network_Nminus_Phylum_Stab_Filtered_vsized.png"))
+  # qgraph::qgraph(network_pcor[[i]]$Nminus, 
+  #   layout = "circle",
+  #   edge.color = ifelse(network_pcor[[i]]$Nminus > 0, "blue", "red"),
+  #   title = "Stab Network Nminus by Phylum",
+  #   vsize = 2.5,
+  #   groups = Phylum_groups)
+  # dev.off()
+  # # %%Visualize Edge weights
+  # cor_values_Nplus <- as.vector(network_pcor[[i]]$Nplus)
+  # cor_values_Nminus <- as.vector(network_pcor[[i]]$Nminus)
+  # cor_values_Nplus_nonzero <- cor_values_Nplus[cor_values_Nplus != 0]
+  # cor_values_Nminus_nonzero <- cor_values_Nminus[cor_values_Nminus != 0]
 
-  ggplot(data.frame(Type = c(rep("N+", length(cor_values_Nplus_nonzero)), rep("N-", length(cor_values_Nminus_nonzero))), 
-    Value = c(cor_values_Nplus_nonzero, cor_values_Nminus_nonzero)), 
-    aes(x = Value, color = Type)) + 
-    geom_density() + 
-    labs(x = "Correlation Value", y = "Density")
-  ggsave(filename=paste0(plot_path,"_correlation_distribution.png"))
+  # ggplot(data.frame(Type = c(rep("N+", length(cor_values_Nplus_nonzero)), rep("N-", length(cor_values_Nminus_nonzero))), 
+  #   Value = c(cor_values_Nplus_nonzero, cor_values_Nminus_nonzero)), 
+  #   aes(x = Value, color = Type)) + 
+  #   geom_density() + 
+  #   labs(x = "Correlation Value", y = "Density")
+  # ggsave(filename=paste0(plot_path,"_correlation_distribution.png"))
   gc()
 }

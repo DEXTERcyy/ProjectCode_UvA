@@ -4,8 +4,8 @@
 #SBATCH --error=analysis_error_copy.txt
 #SBATCH --time=72:00:00
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=16
-#SBATCH --mem=480G
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=500G
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=dextercyy@gmail.com
 

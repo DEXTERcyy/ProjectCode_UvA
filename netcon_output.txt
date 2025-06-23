@@ -3,17 +3,17 @@ R Home: /zfs/omics/software/opt/R-4.3.2/lib64/R
 R lib: /home/14720078/R/x86_64-pc-linux-gnu-library/4.3 /zfs/omics/software/opt/R-4.3.2/lib64/R/library /zfs/omics/software/lib 
 Packages loaded successfully
            used  (Mb) gc trigger  (Mb) max used  (Mb)
-Ncells  6164598 329.3   11965135 639.1  8211421 438.6
-Vcells 10611280  81.0   17912376 136.7 12316488  94.0
+Ncells  6170587 329.6   11965135 639.1  8211421 438.6
+Vcells 10615434  81.0   17912376 136.7 12316488  94.0
            used  (Mb) gc trigger  (Mb) max used  (Mb)
-Ncells  6165585 329.3   11965135 639.1  8211421 438.6
-Vcells 10613450  81.0   17912376 136.7 14732507 112.5
+Ncells  6171553 329.6   11965135 639.1  8211421 438.6
+Vcells 10617552  81.1   17912376 136.7 14751753 112.6
            used  (Mb) gc trigger  (Mb) max used  (Mb)
-Ncells  6167124 329.4   11965135 639.1  8211421 438.6
-Vcells 10392460  79.3   17912376 136.7 14732507 112.5
+Ncells  6173092 329.7   11965135 639.1  8211421 438.6
+Vcells 10396562  79.4   17912376 136.7 14751753 112.6
            used  (Mb) gc trigger  (Mb) max used  (Mb)
-Ncells  6169524 329.5   11965135 639.1  8211421 438.6
-Vcells 10417618  79.5   17912376 136.7 14732507 112.5
+Ncells  6175504 329.9   11965135 639.1  8211421 438.6
+Vcells 10421717  79.6   17912376 136.7 14751753 112.6
 Calculating network on day  4 
 Parallelizing with  16  cores. 
 Network calculation on Day 4 completed.
@@ -198,4 +198,4 @@ Parallelizing with  16  cores.
 Simulation Progress on Day 16 : 93.33333 % done.
 Parallelizing with  16  cores. 
 Simulation Progress on Day 16 : 100 % done.
-All done in:  1.506882 
+All done in:  1.509185 

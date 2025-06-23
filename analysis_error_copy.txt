@@ -139,4 +139,4 @@ Registered S3 method overwritten by 'dendextend':
 Registered S3 method overwritten by 'seriation':
   method         from 
   reorder.hclust vegan
-slurmstepd-omics-cn002: error: *** JOB 146487 ON omics-cn002 CANCELLED AT 2025-06-01T05:04:48 ***
+There were 50 or more warnings (use warnings() to see the first 50)

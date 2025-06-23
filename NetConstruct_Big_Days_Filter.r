@@ -25,6 +25,7 @@ if (!requireNamespace("parallel", quietly = TRUE)) install.packages("parallel") 
 if (!requireNamespace("mixedCCA", quietly = TRUE)) install.packages("mixedCCA")
 if (!requireNamespace("igraph", quietly = TRUE)) install.packages("igraph")
 if (!requireNamespace("qgraph", quietly = TRUE)) install.packages("qgraph")
+if (!requireNamespace("glmnet", quietly = TRUE)) install.packages("glmnet")
 start_time <- Sys.time()
 library(caret)
 library(phyloseq)
@@ -41,7 +42,8 @@ library(dplyr)
 source("//home//14720078//ProjectCode//Packages//stabENG.r")
 source("//home//14720078//ProjectCode//Packages//MyENG.r")
 source("//home//14720078//ProjectCode//Packages//MyPlot.r")
-#source("//home//14720078//ProjectCode//Packages//PCS.r") # Source the PCS functions
+source("//home//14720078//ProjectCode//Packages//PCS_perm.r") # Source the PCS functions
+# source("//home//14720078//ProjectCode//Packages//MyPerm.r") 
 cat("Packages loaded successfully\n")
 
 # Helper function for Matthews Correlation Coefficient (MCC)
@@ -254,6 +256,7 @@ network_list_raw <- list()
 network_list <- list()
 network_pcor_raw <- list()
 network_pcor <- list()
+network_pcor_pcs_screened <- list() # 初始化用于存储PCS筛选结果的列表
 confusion_results_df <- list()
 Sim_list <- list()
 Res_sim <- list()
@@ -375,7 +378,7 @@ permtest_freedman_lane <- function(data_list_current_group, # Data for the speci
 # %% calculate network
 # timestamps <- timestamps[1] # For testing a single timestamp
 for (i in timestamps){
-  plot_dir <- file.path("Plots", "BigDataDaysPermFilter") # Changed plot dir
+  plot_dir <- file.path("Plots", "BigDataDaysFreedmanLane") # Changed plot dir
   if (!dir.exists(plot_dir)) {
     dir.create(plot_dir, recursive = TRUE)
   }
@@ -407,6 +410,85 @@ for (i in timestamps){
   lambda2[[i]] <- current_opt_lambda2 # Storing for record
   
   rm(network_results); gc() # Removed stabENG_args_real_data from rm as it's small
+
+  # --- BEGIN PCS Screening Section ---
+  # cat('\nPerforming PCS CV (Lasso based method, returning PCS paper tau) screening for network on Day',i,'\n')
+  # # Define PCS parameters
+  # n_data_permutations_pcs <- 3 # PCS CV 中的数据重排次数
+  # tau_pcs_nplus <- NA # 使用 NA 进行初始化
+  # tau_pcs_nminus <- NA # 使用 NA 进行初始化
+
+  # # 为 PCS 调用准备 stabENG_params_list
+  # # pcs_cv_threshold_stabENG_lasso 内部的 CV 部分会使用 stabENG_parameters 中的 nlambda, lambda.min/max 等
+  # # 而其末尾调用的 pcor_screen_pcs (其返回值是 pcs_cv_threshold_stabENG_lasso 的最终返回值)
+  # # 需要 opt.lambda1 和 opt.lambda2
+  # stabENG_params_for_pcs <- stabENG_parameters
+  # stabENG_params_for_pcs$opt.lambda1 <- current_opt_lambda1
+  # stabENG_params_for_pcs$opt.lambda2 <- current_opt_lambda2
+
+  # # PCS screening for Nplus
+  # if (!is.null(data_list_current_timestamp$Nplus) && nrow(data_list_current_timestamp$Nplus) > 0 && 
+  #     !is.null(network_pcor_raw[[i]]$Nplus) && ncol(network_pcor_raw[[i]]$Nplus) > 0 && nrow(network_pcor_raw[[i]]$Nplus) > 0) {
+      
+  #     tau_pcs_nplus <- pcs_cv_threshold_stabENG_lasso_perm(
+  #         data_list_unscaled_full = data_list_current_timestamp,
+  #         initial_pcor_matrix_target = network_pcor_raw[[i]]$Nplus,
+  #         group_name_target = "Nplus",
+  #         other_group_name = "Nminus",
+  #         stabENG_params_list = stabENG_params_for_pcs,
+  #         otu_labels = shared_otu, # 确保 shared_otu 与 network_pcor_raw[[i]]$Nplus 的维度匹配
+  #         fold = nrow(data_list_current_timestamp$Nplus), # LOOCV
+  #         plot_cv_curve = TRUE, 
+  #         plot_path_prefix = plot_path, # 使用 plot_path 作为前缀
+  #         n_data_permutations = n_data_permutations_pcs
+  #     )
+  # } else {
+  #     warning(paste0("Skipping PCS CV for Nplus on Day ", i, " due to no data or no raw pcor matrix."))
+  #     # tau_pcs_nplus 保持 NA 或可设为默认值如 0.05，但 NA 更能反映未执行
+  # }
+
+  # # PCS screening for Nminus
+  # if (!is.null(data_list_current_timestamp$Nminus) && nrow(data_list_current_timestamp$Nminus) > 0 && 
+  #     !is.null(network_pcor_raw[[i]]$Nminus) && ncol(network_pcor_raw[[i]]$Nminus) > 0 && nrow(network_pcor_raw[[i]]$Nminus) > 0) {
+      
+  #     tau_pcs_nminus <- pcs_cv_threshold_stabENG_lasso_perm(
+  #         data_list_unscaled_full = data_list_current_timestamp,
+  #         initial_pcor_matrix_target = network_pcor_raw[[i]]$Nminus,
+  #         group_name_target = "Nminus",
+  #         other_group_name = "Nplus",
+  #         stabENG_params_list = stabENG_params_for_pcs,
+  #         otu_labels = shared_otu, # 确保 shared_otu 与 network_pcor_raw[[i]]$Nminus 的维度匹配
+  #         fold = nrow(data_list_current_timestamp$Nminus), # LOOCV
+  #         plot_cv_curve = TRUE,
+  #         plot_path_prefix = plot_path, # 使用 plot_path 作为前缀
+  #         n_data_permutations = n_data_permutations_pcs
+  #     )
+  # } else {
+  #     warning(paste0("Skipping PCS CV for Nminus on Day ", i, " due to no data or no raw pcor matrix."))
+  #     # tau_pcs_nminus 保持 NA
+  # }
+  
+  # cat(sprintf("\nPCS method optimal tau for Day %s:\n  Nplus: %.4f\n  Nminus: %.4f\n",
+  #             i, ifelse(is.na(tau_pcs_nplus), NA, tau_pcs_nplus), ifelse(is.na(tau_pcs_nminus), NA, tau_pcs_nminus)))
+
+  # # Apply PCS screening to network_pcor_raw
+  # network_pcor_pcs_screened[[i]] <- list()
+  # network_pcor_pcs_screened[[i]]$Nplus <- if(!is.null(network_pcor_raw[[i]]$Nplus)) network_pcor_raw[[i]]$Nplus else NULL
+  # network_pcor_pcs_screened[[i]]$Nminus <- if(!is.null(network_pcor_raw[[i]]$Nminus)) network_pcor_raw[[i]]$Nminus else NULL
+
+  # if(!is.null(network_pcor_pcs_screened[[i]]$Nplus) && !is.na(tau_pcs_nplus)) {
+  #     network_pcor_pcs_screened[[i]]$Nplus[abs(network_pcor_pcs_screened[[i]]$Nplus) < tau_pcs_nplus] <- 0
+  #     diag(network_pcor_pcs_screened[[i]]$Nplus) <- 0 
+  # }
+  # if(!is.null(network_pcor_pcs_screened[[i]]$Nminus) && !is.na(tau_pcs_nminus)) {
+  #     network_pcor_pcs_screened[[i]]$Nminus[abs(network_pcor_pcs_screened[[i]]$Nminus) < tau_pcs_nminus] <- 0
+  #     diag(network_pcor_pcs_screened[[i]]$Nminus) <- 0
+  # }
+  
+  # cat('PCS Screened edge number on Day', i, 
+  #     'Nplus (pcor):', if(!is.null(network_pcor_pcs_screened[[i]]$Nplus)) sum(network_pcor_pcs_screened[[i]]$Nplus[upper.tri(network_pcor_pcs_screened[[i]]$Nplus)] != 0) else 0,
+  #     'Nminus (pcor):', if(!is.null(network_pcor_pcs_screened[[i]]$Nminus)) sum(network_pcor_pcs_screened[[i]]$Nminus[upper.tri(network_pcor_pcs_screened[[i]]$Nminus)] != 0) else 0, '\n')
+  # # --- END PCS Screening Section ---
 
   cat('\nPerforming Freedman-Lane permutation test for network on Day',i,'\n')
   perm_thresholds_values <- list()
