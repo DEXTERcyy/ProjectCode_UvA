@@ -970,7 +970,6 @@ for (i in timestamps){
                         } else { list(TPR=NA, FPR=NA, Precision=NA, Recall=NA, F1=NA, AUC=NA, MCC=NA, TP=NA,FP=NA,TN=NA,FN=NA) } # Added TP/FP/TN/FN to NA list
       return(list(Nplus = Nplus_metrics, Nminus = Nminus_metrics))
   })
-  # ... (rest of the script for results_df, plotting, saving remains the same) ...
   results_df <- do.call(rbind, lapply(confusion_results, function(x) {
     # Ensure that Nplus and Nminus components are data.frame compatible
     nplus_df <- if(is.list(x$Nplus)) as.data.frame(x$Nplus) else data.frame(TPR=NA, FPR=NA, Precision=NA, Recall=NA, F1=NA, AUC=NA, MCC=NA)
