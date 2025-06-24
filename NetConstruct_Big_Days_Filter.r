@@ -565,7 +565,7 @@ for (i in timestamps){
   # This logic now needs to decide which matrix (pcor or precision) drives the OTU subsetting.
   # Previously, it was based on network_list (precision matrix after thresholding).
   # If we want the simulation to be based on the sparse pcor structure,
-  # then OTU subsetting should be based on the filtered network_pcor.
+  # then OTU subsetting should be based on network_pcor.
   # If the precision matrix from stabENG (network_list_raw) is considered the "true" structure for simulation,
   # then subsetting should be based on network_list_raw.
 
@@ -680,7 +680,7 @@ for (i in timestamps){
     png(filename=paste0(plot_path,"_network_Nplus_Phylum_PermTest_Filtered_vsized.png"))
     qgraph::qgraph(network_pcor[[i]]$Nplus, 
       layout = "circle",
-      edge.color = ifelse(network_pcor[[i]]$Nplus > 0, "blue", "red"),
+      edge.color = ifelse(network_pcor[[i]]$Nplus > 0, "#2b732b", "red"),
       title = "PermTest Filtered Network Nplus by Phylum",
       vsize = 2.5,
       groups = Phylum_groups_nplus)
@@ -692,7 +692,7 @@ for (i in timestamps){
     png(filename=paste0(plot_path,"_network_Nminus_Phylum_PermTest_Filtered_vsized.png"))
     qgraph::qgraph(network_pcor[[i]]$Nminus, 
       layout = "circle",
-      edge.color = ifelse(network_pcor[[i]]$Nminus > 0, "blue", "red"),
+      edge.color = ifelse(network_pcor[[i]]$Nminus > 0, "#2b732b", "red"),
       title = "PermTest Filtered Network Nminus by Phylum",
       vsize = 2.5,
       groups = Phylum_groups_nminus)
@@ -721,7 +721,7 @@ for (i in timestamps){
   set.seed(10010)
   cat('Synthesize simulation data on day ',i,'\n')
 
-  current_sim_otus <- if (length(shared_otu_perm_filtered) > 0) shared_otu_perm_filtered else shared_otu # Fallback to pre-perm-test shared_otu if perm filtering yields no shared OTUs
+  current_sim_otus <- if (length(shared_otu_perm_filtered) > 0) shared_otu_perm_filtered else shared_otu
   
   dat_sim_Nplus <- if (!is.null(data_list_current_timestamp$Nplus) && ncol(data_list_current_timestamp$Nplus) > 0) {
                        data_list_current_timestamp$Nplus[, colnames(data_list_current_timestamp$Nplus) %in% current_sim_otus, drop = FALSE]
@@ -739,101 +739,183 @@ for (i in timestamps){
                                                       colnames(network_list[[i]]$Nminus) %in% current_sim_otus, drop = FALSE]
                          } else { matrix(0, length(current_sim_otus), length(current_sim_otus), dimnames=list(current_sim_otus, current_sim_otus)) }
 
-  # Ensure row/col names for true_net_sim matrices if they became 0x0 or similar
+  # Ensure proper dimensions
   if(length(current_sim_otus) > 0){
-      if(nrow(true_net_sim_Nplus) == 0 || ncol(true_net_sim_Nplus) == 0 && length(current_sim_otus) > 0) {
+      if(nrow(true_net_sim_Nplus) == 0 || ncol(true_net_sim_Nplus) == 0) {
           true_net_sim_Nplus <- matrix(0, length(current_sim_otus), length(current_sim_otus), dimnames=list(current_sim_otus, current_sim_otus))
       }
-      if(nrow(true_net_sim_Nminus) == 0 || ncol(true_net_sim_Nminus) == 0 && length(current_sim_otus) > 0) {
+      if(nrow(true_net_sim_Nminus) == 0 || ncol(true_net_sim_Nminus) == 0) {
           true_net_sim_Nminus <- matrix(0, length(current_sim_otus), length(current_sim_otus), dimnames=list(current_sim_otus, current_sim_otus))
       }
   }
 
-
+  # Generate simulation data
   if (length(current_sim_otus) > 0 && !is.null(dat_sim_Nplus) && !is.null(dat_sim_Nminus) && 
-      nrow(dat_sim_Nplus) > 0 && ncol(dat_sim_Nplus) > 0 && # Ensure dat_sim also has columns
-      nrow(dat_sim_Nminus) > 0 && ncol(dat_sim_Nminus) > 0) { # Ensure dat_sim also has columns
+      nrow(dat_sim_Nplus) > 0 && ncol(dat_sim_Nplus) > 0 && 
+      nrow(dat_sim_Nminus) > 0 && ncol(dat_sim_Nminus) > 0) { 
       for (j in 1:n_sim) {
           Sim_list[[i]][[j]] <- list(
             Nplus = synthesize_scaled_data(dat_sim_Nplus, true_net_sim_Nplus),
             Nminus = synthesize_scaled_data(dat_sim_Nminus, true_net_sim_Nminus)
           )
       }
-      rm(dat_sim_Nplus, dat_sim_Nminus); # true_net_sim are needed for confusion matrix
+      rm(dat_sim_Nplus, dat_sim_Nminus);
   } else {
-      warning(paste0("Skipping simulation data synthesis for Day ", i, " due to no common OTUs or insufficient data after filtering for simulation basis."))
-      Sim_list[[i]] <- vector("list", n_sim) # Ensure Sim_list[[i]] is a list
+      warning(paste0("Skipping simulation data synthesis for Day ", i, " due to insufficient data."))
+      Sim_list[[i]] <- vector("list", n_sim)
       for (j in 1:n_sim) { 
           Sim_list[[i]][[j]] <- list(Nplus = matrix(0,0,0), Nminus = matrix(0,0,0))
       }
   }
+  
   cat('Calculate simulation data network on day ',i,' start.\n')
 
-  Res_sim[[i]] <- vector("list", n_sim) # Ensure Res_sim[[i]] is a list
+  Res_sim[[i]] <- vector("list", n_sim)
+  sim_perm_thresholds_list <- vector("list", n_sim) # Store simulation-specific permutation thresholds
+
   for (j in 1:n_sim) {
       if ( (is.matrix(Sim_list[[i]][[j]]$Nplus) && nrow(Sim_list[[i]][[j]]$Nplus) > 0 && ncol(Sim_list[[i]][[j]]$Nplus) > 0) || 
            (is.matrix(Sim_list[[i]][[j]]$Nminus) && nrow(Sim_list[[i]][[j]]$Nminus) > 0 && ncol(Sim_list[[i]][[j]]$Nminus) > 0) ) {
           
-          # Ensure labels for stabENG match the dimensions of Sim_list data
+          # Get labels for stabENG
           sim_data_labels <- character(0)
           if(ncol(Sim_list[[i]][[j]]$Nplus) > 0) sim_data_labels <- colnames(Sim_list[[i]][[j]]$Nplus)
           else if(ncol(Sim_list[[i]][[j]]$Nminus) > 0) sim_data_labels <- colnames(Sim_list[[i]][[j]]$Nminus)
           
-          if(length(sim_data_labels) == 0 && length(current_sim_otus) > 0) sim_data_labels <- current_sim_otus # Fallback if colnames are lost
+          if(length(sim_data_labels) == 0 && length(current_sim_otus) > 0) sim_data_labels <- current_sim_otus
 
           if(length(sim_data_labels) > 0){
+            # First, run stabENG to get raw simulation network
             stabENG_args_sim_data <- c(
-              list(Y = Sim_list[[i]][[j]], labels = sim_data_labels), # Use labels from actual sim data
+              list(Y = Sim_list[[i]][[j]], labels = sim_data_labels),
               stabENG_parameters
             )
-            Res_sim[[i]][[j]] <- do.call(stabENG, stabENG_args_sim_data)
+            Res_sim_raw <- do.call(stabENG, stabENG_args_sim_data)
             rm(stabENG_args_sim_data);
+            
+            # Store raw results
+            Res_sim[[i]][[j]] <- Res_sim_raw
+            
+            # Remove diagonal elements from raw results
+            if(!is.null(Res_sim[[i]][[j]]$opt.fit.pcor$Nplus)) {
+                diag(Res_sim[[i]][[j]]$opt.fit.pcor$Nplus) <- 0
+            }
+            if(!is.null(Res_sim[[i]][[j]]$opt.fit.pcor$Nminus)) {
+                diag(Res_sim[[i]][[j]]$opt.fit.pcor$Nminus) <- 0
+            }
+            
+            # Get optimal lambdas from simulation
+            sim_opt_lambda1 <- Res_sim_raw$opt.lambda1
+            sim_opt_lambda2 <- Res_sim_raw$opt.lambda2
+            
+            cat(paste('Performing Freedman-Lane permutation test for simulation', j, 'on day', i, '\n'))
+            
+            # Perform permutation test on simulation data for Nplus
+            sim_perm_threshold_nplus <- if (!is.null(Sim_list[[i]][[j]]$Nplus) && nrow(Sim_list[[i]][[j]]$Nplus) > 0 && 
+                                             !is.null(Res_sim[[i]][[j]]$opt.fit.pcor$Nplus)) {
+                permtest_freedman_lane(
+                  data_list_current_group = Sim_list[[i]][[j]]$Nplus,
+                  original_other_group_data = Sim_list[[i]][[j]]$Nminus,
+                  pcor_matrix_target_group = Res_sim[[i]][[j]]$opt.fit.pcor$Nplus,
+                  group_name_to_permute = "Nplus",
+                  n_perm = 25, # Reduced permutations for simulation efficiency
+                  alpha = 0.1,
+                  stabENG_general_params = stabENG_parameters,
+                  opt_lambda1_current = sim_opt_lambda1,
+                  opt_lambda2_current = sim_opt_lambda2,
+                  shared_labels_for_stabENG = sim_data_labels
+                )
+            } else { NA }
+            
+            # Perform permutation test on simulation data for Nminus
+            sim_perm_threshold_nminus <- if (!is.null(Sim_list[[i]][[j]]$Nminus) && nrow(Sim_list[[i]][[j]]$Nminus) > 0 && 
+                                              !is.null(Res_sim[[i]][[j]]$opt.fit.pcor$Nminus)) {
+                permtest_freedman_lane(
+                  data_list_current_group = Sim_list[[i]][[j]]$Nminus,
+                  original_other_group_data = Sim_list[[i]][[j]]$Nplus,
+                  pcor_matrix_target_group = Res_sim[[i]][[j]]$opt.fit.pcor$Nminus,
+                  group_name_to_permute = "Nminus",
+                  n_perm = 25, # Reduced permutations for simulation efficiency
+                  alpha = 0.1,
+                  stabENG_general_params = stabENG_parameters,
+                  opt_lambda1_current = sim_opt_lambda1,
+                  opt_lambda2_current = sim_opt_lambda2,
+                  shared_labels_for_stabENG = sim_data_labels
+                )
+            } else { NA }
+            
+            # Store simulation-specific thresholds
+            sim_perm_thresholds_list[[j]] <- list(Nplus = sim_perm_threshold_nplus, Nminus = sim_perm_threshold_nminus)
+            
+            cat(sprintf("Simulation %d permutation test thresholds for Day %s:\n  Nplus: %.4f\n  Nminus: %.4f\n",
+                       j, i, ifelse(is.na(sim_perm_threshold_nplus), 0, sim_perm_threshold_nplus), 
+                       ifelse(is.na(sim_perm_threshold_nminus), 0, sim_perm_threshold_nminus)))
+            
+            # Apply simulation-specific permutation thresholds to simulation results
+            if(!is.null(Res_sim[[i]][[j]]$opt.fit.pcor$Nplus) && !is.na(sim_perm_threshold_nplus)) {
+                Res_sim[[i]][[j]]$opt.fit.pcor$Nplus[abs(Res_sim[[i]][[j]]$opt.fit.pcor$Nplus) < sim_perm_threshold_nplus] <- 0
+                cat(paste("Applied simulation-specific Nplus permutation threshold", round(sim_perm_threshold_nplus, 4), "to simulation", j, "\n"))
+            }
+            if(!is.null(Res_sim[[i]][[j]]$opt.fit.pcor$Nminus) && !is.na(sim_perm_threshold_nminus)) {
+                Res_sim[[i]][[j]]$opt.fit.pcor$Nminus[abs(Res_sim[[i]][[j]]$opt.fit.pcor$Nminus) < sim_perm_threshold_nminus] <- 0
+                cat(paste("Applied simulation-specific Nminus permutation threshold", round(sim_perm_threshold_nminus, 4), "to simulation", j, "\n"))
+            }
+            
+            rm(Res_sim_raw); # Clean up
+            
           } else {
              warning(paste0("Skipping stabENG for simulation ", j, " on Day ", i, " due to no labels for sim data."))
              Res_sim[[i]][[j]] <- list(opt.fit.pcor=list(Nplus=matrix(0,0,0), Nminus=matrix(0,0,0)))
+             sim_perm_thresholds_list[[j]] <- list(Nplus = NA, Nminus = NA)
           }
       } else { 
           warning(paste0("Skipping stabENG for simulation ", j, " on Day ", i, " due to empty simulation data."))
           Res_sim[[i]][[j]] <- list(opt.fit.pcor=list(Nplus=matrix(0,0,0), Nminus=matrix(0,0,0)))
+          sim_perm_thresholds_list[[j]] <- list(Nplus = NA, Nminus = NA)
       }
+      
       cat('Simulation Progress on Day',i,':', 100*j/n_sim,'% done.\n')
       
-      # No specific filtering on Res_sim pcor for now, using stabENG output directly
-      # If filtering was desired, could apply perm_thresholds_values or a fixed small threshold
-      if(!is.null(Res_sim[[i]][[j]]$opt.fit.pcor$Nplus)) diag(Res_sim[[i]][[j]]$opt.fit.pcor$Nplus) <- 0
-      if(!is.null(Res_sim[[i]][[j]]$opt.fit.pcor$Nminus)) diag(Res_sim[[i]][[j]]$opt.fit.pcor$Nminus) <- 0
+      # Count edges after applying simulation-specific permutation thresholds
+      nplus_edges_after_sim_perm <- if(!is.null(Res_sim[[i]][[j]]$opt.fit.pcor$Nplus)) {
+          sum(Res_sim[[i]][[j]]$opt.fit.pcor$Nplus[upper.tri(Res_sim[[i]][[j]]$opt.fit.pcor$Nplus)] != 0)
+      } else { 0 }
+      nminus_edges_after_sim_perm <- if(!is.null(Res_sim[[i]][[j]]$opt.fit.pcor$Nminus)) {
+          sum(Res_sim[[i]][[j]]$opt.fit.pcor$Nminus[upper.tri(Res_sim[[i]][[j]]$opt.fit.pcor$Nminus)] != 0)
+      } else { 0 }
       
-      # plot sim network (using Res_sim pcor)
-      # Ensure Phylum_groups_sim are defined based on sim_data_labels
+      cat(paste("Simulation", j, "edges after simulation-specific permutation filtering - Nplus:", nplus_edges_after_sim_perm, 
+                "Nminus:", nminus_edges_after_sim_perm, "\n"))
+      
+      # Plot simulation network (using simulation-specific permutation filtered results)
       if (length(sim_data_labels) > 0) {
           Phylum_groups_sim <- as.factor(otu_tax[sim_data_labels,"Phylum"])
           
           if(!is.null(Res_sim[[i]][[j]]$opt.fit.pcor$Nplus) && nrow(Res_sim[[i]][[j]]$opt.fit.pcor$Nplus) > 0){
-            png(filename=paste0(plot_path,"_simulation_network_",j,"_Nplus_Phylum_Stab_vsized.png"))
+            png(filename=paste0(plot_path,"_simulation_network_",j,"_Nplus_Phylum_SimPermFiltered_vsized.png"))
             qgraph::qgraph(Res_sim[[i]][[j]]$opt.fit.pcor$Nplus, 
               layout = "circle",
-              edge.color = ifelse(Res_sim[[i]][[j]]$opt.fit.pcor$Nplus > 0, "blue", "red"),
-              title = paste0("Sim ", j, " Network Nplus by Phylum (Day ", i, ")"),
+              edge.color = ifelse(Res_sim[[i]][[j]]$opt.fit.pcor$Nplus > 0, "#2b732b", "red"),
+              title = paste0("Sim ", j, " Network Nplus by Phylum (Day ", i, ") - Sim-Specific PermTest Filtered"),
               vsize = 2.5,
               groups = Phylum_groups_sim)
             dev.off()
           }
           
           if(!is.null(Res_sim[[i]][[j]]$opt.fit.pcor$Nminus) && nrow(Res_sim[[i]][[j]]$opt.fit.pcor$Nminus) > 0){
-            png(filename=paste0(plot_path,"_simulation_network_",j,"_Nminus_Phylum_Stab_vsized.png"))
+            png(filename=paste0(plot_path,"_simulation_network_",j,"_Nminus_Phylum_SimPermFiltered_vsized.png"))
             qgraph::qgraph(Res_sim[[i]][[j]]$opt.fit.pcor$Nminus, 
               layout = "circle",
-              edge.color = ifelse(Res_sim[[i]][[j]]$opt.fit.pcor$Nminus > 0, "blue", "red"),
-              title = paste0("Sim ", j, " Network Nminus by Phylum (Day ", i, ")"),
+              edge.color = ifelse(Res_sim[[i]][[j]]$opt.fit.pcor$Nminus > 0, "#2b732b", "red"),
+              title = paste0("Sim ", j, " Network Nminus by Phylum (Day ", i, ") - Sim-Specific PermTest Filtered"),
               vsize = 2.5,
               groups = Phylum_groups_sim)
             dev.off()
           }
       }
   }
-  gc() # Garbage collect after simulation loop for a day
+  gc()
   
-  # ... (Sim_adj and Confusion matrices calculation remains largely the same, ensure true_adj_* uses the perm-filtered network_pcor) ...
   # True adjacency for confusion matrix should be based on the perm-filtered real data network
   true_adj_Nplus_for_confusion <- if (!is.null(network_pcor[[i]]$Nplus) && nrow(network_pcor[[i]]$Nplus) > 0 && ncol(network_pcor[[i]]$Nplus) > 0) {
                                       (network_pcor[[i]]$Nplus !=0)*1 # Already filtered to current_sim_otus effectively by shared_otu_perm_filtered logic
@@ -907,8 +989,7 @@ for (i in timestamps){
                   names_to = c("group", "metric"),
                   names_sep = "\\.",
                   values_to = "value")
-    # Add matrix_id and times, ensuring correct lengths
-    num_metrics_per_sim_iteration <- ncol(results_df) # Nplus.TPR, Nplus.FPR etc. + Nminus.TPR etc.
+    # Add matrix_id and times, ensuring correct lengths    num_metrics_per_sim_iteration <- ncol(results_df) # Nplus.TPR, Nplus.FPR etc. + Nminus.TPR etc.
     if (nrow(results_df_long) > 0 && num_metrics_per_sim_iteration > 0) {
         results_df_long <- results_df_long %>%
             dplyr::mutate(matrix_id = rep(1:n_sim, each = num_metrics_per_sim_iteration),

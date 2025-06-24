@@ -1,0 +1,4 @@
+JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+            148158   no filter sim  all my_r_net 14720078  R       0:02      1 omics-cn005
+            148157   no filter      all my_r_net 14720078  R       7:51      1 omics-cn004
+            148152   plot           all my_r_net 14720078  R    1:15:02      1 omics-cn002

@@ -31,171 +31,137 @@ Shared OTU number for simulation basis (shared_otu_perm_filtered) on Day 4 : 64
 Synthesize simulation data on day  4 
 Calculate simulation data network on day  4  start.
 Parallelizing with  16  cores. 
+Performing Freedman-Lane permutation test for simulation 1 on day 4 
+Simulation 1 permutation test thresholds for Day 4:
+  Nplus: 0.0000
+  Nminus: 0.0000
+Applied simulation-specific Nplus permutation threshold 0 to simulation 1 
+Applied simulation-specific Nminus permutation threshold 0 to simulation 1 
 Simulation Progress on Day 4 : 6.666667 % done.
+Simulation 1 edges after simulation-specific permutation filtering - Nplus: 31 Nminus: 26 
 Parallelizing with  16  cores. 
+Performing Freedman-Lane permutation test for simulation 2 on day 4 
+Simulation 2 permutation test thresholds for Day 4:
+  Nplus: 0.0000
+  Nminus: 0.0000
+Applied simulation-specific Nplus permutation threshold 0 to simulation 2 
+Applied simulation-specific Nminus permutation threshold 0 to simulation 2 
 Simulation Progress on Day 4 : 13.33333 % done.
+Simulation 2 edges after simulation-specific permutation filtering - Nplus: 38 Nminus: 48 
 Parallelizing with  16  cores. 
+Performing Freedman-Lane permutation test for simulation 3 on day 4 
+Simulation 3 permutation test thresholds for Day 4:
+  Nplus: 0.0000
+  Nminus: 0.0000
+Applied simulation-specific Nplus permutation threshold 0 to simulation 3 
+Applied simulation-specific Nminus permutation threshold 0 to simulation 3 
 Simulation Progress on Day 4 : 20 % done.
+Simulation 3 edges after simulation-specific permutation filtering - Nplus: 17 Nminus: 17 
 Parallelizing with  16  cores. 
+Performing Freedman-Lane permutation test for simulation 4 on day 4 
+Simulation 4 permutation test thresholds for Day 4:
+  Nplus: 0.0000
+  Nminus: 0.0000
+Applied simulation-specific Nplus permutation threshold 0 to simulation 4 
+Applied simulation-specific Nminus permutation threshold 0 to simulation 4 
 Simulation Progress on Day 4 : 26.66667 % done.
+Simulation 4 edges after simulation-specific permutation filtering - Nplus: 22 Nminus: 55 
 Parallelizing with  16  cores. 
+Performing Freedman-Lane permutation test for simulation 5 on day 4 
+Simulation 5 permutation test thresholds for Day 4:
+  Nplus: 0.0000
+  Nminus: 0.0000
+Applied simulation-specific Nplus permutation threshold 0 to simulation 5 
+Applied simulation-specific Nminus permutation threshold 0 to simulation 5 
 Simulation Progress on Day 4 : 33.33333 % done.
+Simulation 5 edges after simulation-specific permutation filtering - Nplus: 28 Nminus: 34 
 Parallelizing with  16  cores. 
+Performing Freedman-Lane permutation test for simulation 6 on day 4 
+Simulation 6 permutation test thresholds for Day 4:
+  Nplus: 0.0000
+  Nminus: 0.0000
+Applied simulation-specific Nplus permutation threshold 0 to simulation 6 
+Applied simulation-specific Nminus permutation threshold 0 to simulation 6 
 Simulation Progress on Day 4 : 40 % done.
+Simulation 6 edges after simulation-specific permutation filtering - Nplus: 45 Nminus: 40 
 Parallelizing with  16  cores. 
+Performing Freedman-Lane permutation test for simulation 7 on day 4 
+Simulation 7 permutation test thresholds for Day 4:
+  Nplus: 0.0000
+  Nminus: 0.0000
+Applied simulation-specific Nplus permutation threshold 0 to simulation 7 
+Applied simulation-specific Nminus permutation threshold 0 to simulation 7 
 Simulation Progress on Day 4 : 46.66667 % done.
+Simulation 7 edges after simulation-specific permutation filtering - Nplus: 33 Nminus: 18 
 Parallelizing with  16  cores. 
+Performing Freedman-Lane permutation test for simulation 8 on day 4 
+Simulation 8 permutation test thresholds for Day 4:
+  Nplus: 0.0000
+  Nminus: 0.0000
+Applied simulation-specific Nplus permutation threshold 0 to simulation 8 
+Applied simulation-specific Nminus permutation threshold 0 to simulation 8 
 Simulation Progress on Day 4 : 53.33333 % done.
+Simulation 8 edges after simulation-specific permutation filtering - Nplus: 68 Nminus: 63 
 Parallelizing with  16  cores. 
+Performing Freedman-Lane permutation test for simulation 9 on day 4 
+Simulation 9 permutation test thresholds for Day 4:
+  Nplus: 0.0000
+  Nminus: 0.0000
+Applied simulation-specific Nplus permutation threshold 0 to simulation 9 
+Applied simulation-specific Nminus permutation threshold 0 to simulation 9 
 Simulation Progress on Day 4 : 60 % done.
+Simulation 9 edges after simulation-specific permutation filtering - Nplus: 49 Nminus: 45 
 Parallelizing with  16  cores. 
+Performing Freedman-Lane permutation test for simulation 10 on day 4 
+Simulation 10 permutation test thresholds for Day 4:
+  Nplus: 0.0000
+  Nminus: 0.0000
+Applied simulation-specific Nplus permutation threshold 0 to simulation 10 
+Applied simulation-specific Nminus permutation threshold 0 to simulation 10 
 Simulation Progress on Day 4 : 66.66667 % done.
+Simulation 10 edges after simulation-specific permutation filtering - Nplus: 31 Nminus: 23 
 Parallelizing with  16  cores. 
+Performing Freedman-Lane permutation test for simulation 11 on day 4 
+Simulation 11 permutation test thresholds for Day 4:
+  Nplus: 0.0000
+  Nminus: 0.0000
+Applied simulation-specific Nplus permutation threshold 0 to simulation 11 
+Applied simulation-specific Nminus permutation threshold 0 to simulation 11 
 Simulation Progress on Day 4 : 73.33333 % done.
+Simulation 11 edges after simulation-specific permutation filtering - Nplus: 43 Nminus: 31 
 Parallelizing with  16  cores. 
+Performing Freedman-Lane permutation test for simulation 12 on day 4 
+Simulation 12 permutation test thresholds for Day 4:
+  Nplus: 0.0000
+  Nminus: 0.0000
+Applied simulation-specific Nplus permutation threshold 0 to simulation 12 
+Applied simulation-specific Nminus permutation threshold 0 to simulation 12 
 Simulation Progress on Day 4 : 80 % done.
+Simulation 12 edges after simulation-specific permutation filtering - Nplus: 37 Nminus: 34 
 Parallelizing with  16  cores. 
+Performing Freedman-Lane permutation test for simulation 13 on day 4 
+Simulation 13 permutation test thresholds for Day 4:
+  Nplus: 0.0000
+  Nminus: 0.0000
+Applied simulation-specific Nplus permutation threshold 0 to simulation 13 
+Applied simulation-specific Nminus permutation threshold 0 to simulation 13 
 Simulation Progress on Day 4 : 86.66667 % done.
+Simulation 13 edges after simulation-specific permutation filtering - Nplus: 55 Nminus: 50 
 Parallelizing with  16  cores. 
+Performing Freedman-Lane permutation test for simulation 14 on day 4 
+Simulation 14 permutation test thresholds for Day 4:
+  Nplus: 0.0000
+  Nminus: 0.0000
+Applied simulation-specific Nplus permutation threshold 0 to simulation 14 
+Applied simulation-specific Nminus permutation threshold 0 to simulation 14 
 Simulation Progress on Day 4 : 93.33333 % done.
+Simulation 14 edges after simulation-specific permutation filtering - Nplus: 54 Nminus: 36 
 Parallelizing with  16  cores. 
+Performing Freedman-Lane permutation test for simulation 15 on day 4 
+Simulation 15 permutation test thresholds for Day 4:
+  Nplus: 0.0000
+  Nminus: 0.0000
+Applied simulation-specific Nplus permutation threshold 0 to simulation 15 
+Applied simulation-specific Nminus permutation threshold 0 to simulation 15 
 Simulation Progress on Day 4 : 100 % done.
-Calculating network on day  8 
-Parallelizing with  16  cores. 
-Network calculation on Day 8 completed.
-
-Performing Freedman-Lane permutation test for network on Day 8 
-
-Permutation test thresholds for Day 8:
-  Nplus: 0.0000
-  Nminus: 0.0000
-Filtered OTU number on Day 8 Nplus (pcor): 158 Nminus (pcor): 241 
-Raw OTU number on Day 8 Nplus (precision): 158 Nminus (precision): 241 
-OTU number after pcor-based subsetting on Day 8 Nplus (pcor): 70 Nminus (pcor): 72 
-Corresponding OTU number on Day 8 Nplus (precision): 70 Nminus (precision): 72 
-Shared OTU number for simulation basis (shared_otu_perm_filtered) on Day 8 : 62 
-Synthesize simulation data on day  8 
-Calculate simulation data network on day  8  start.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 8 : 6.666667 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 8 : 13.33333 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 8 : 20 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 8 : 26.66667 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 8 : 33.33333 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 8 : 40 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 8 : 46.66667 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 8 : 53.33333 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 8 : 60 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 8 : 66.66667 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 8 : 73.33333 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 8 : 80 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 8 : 86.66667 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 8 : 93.33333 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 8 : 100 % done.
-Calculating network on day  12 
-Parallelizing with  16  cores. 
-Network calculation on Day 12 completed.
-
-Performing Freedman-Lane permutation test for network on Day 12 
-
-Permutation test thresholds for Day 12:
-  Nplus: 0.0000
-  Nminus: 0.0000
-Filtered OTU number on Day 12 Nplus (pcor): 200 Nminus (pcor): 254 
-Raw OTU number on Day 12 Nplus (precision): 200 Nminus (precision): 254 
-OTU number after pcor-based subsetting on Day 12 Nplus (pcor): 68 Nminus (pcor): 72 
-Corresponding OTU number on Day 12 Nplus (precision): 68 Nminus (precision): 72 
-Shared OTU number for simulation basis (shared_otu_perm_filtered) on Day 12 : 61 
-Synthesize simulation data on day  12 
-Calculate simulation data network on day  12  start.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 12 : 6.666667 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 12 : 13.33333 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 12 : 20 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 12 : 26.66667 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 12 : 33.33333 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 12 : 40 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 12 : 46.66667 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 12 : 53.33333 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 12 : 60 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 12 : 66.66667 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 12 : 73.33333 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 12 : 80 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 12 : 86.66667 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 12 : 93.33333 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 12 : 100 % done.
-Calculating network on day  16 
-Parallelizing with  16  cores. 
-Network calculation on Day 16 completed.
-
-Performing Freedman-Lane permutation test for network on Day 16 
-
-Permutation test thresholds for Day 16:
-  Nplus: 0.0000
-  Nminus: 0.0000
-Filtered OTU number on Day 16 Nplus (pcor): 146 Nminus (pcor): 173 
-Raw OTU number on Day 16 Nplus (precision): 146 Nminus (precision): 173 
-OTU number after pcor-based subsetting on Day 16 Nplus (pcor): 56 Nminus (pcor): 59 
-Corresponding OTU number on Day 16 Nplus (precision): 56 Nminus (precision): 59 
-Shared OTU number for simulation basis (shared_otu_perm_filtered) on Day 16 : 53 
-Synthesize simulation data on day  16 
-Calculate simulation data network on day  16  start.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 16 : 6.666667 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 16 : 13.33333 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 16 : 20 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 16 : 26.66667 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 16 : 33.33333 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 16 : 40 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 16 : 46.66667 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 16 : 53.33333 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 16 : 60 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 16 : 66.66667 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 16 : 73.33333 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 16 : 80 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 16 : 86.66667 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 16 : 93.33333 % done.
-Parallelizing with  16  cores. 
-Simulation Progress on Day 16 : 100 % done.
-All done in:  1.509185 
+Simulation 15 edges after simulation-specific permutation filtering - Nplus: 47 Nminus: 33 

@@ -144,7 +144,6 @@ Registered S3 methods overwritten by 'proxy':
   method               from    
   print.registry_field registry
   print.registry_entry registry
-Saving 7 x 7 in image
-Saving 7 x 7 in image
-Saving 7 x 7 in image
-There were 50 or more warnings (use warnings() to see the first 50)
+Error: object 'num_metrics_per_sim_iteration' not found
+In addition: There were 50 or more warnings (use warnings() to see the first 50)
+Execution halted
